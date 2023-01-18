@@ -27,7 +27,10 @@ export type InferErrTypes<R> = R extends Result<unknown, infer E> ? E : never
 export type InferAsyncOkTypes<R> = R extends ResultAsync<infer T, unknown> ? T : never
 export type InferAsyncErrTypes<R> = R extends ResultAsync<unknown, infer E> ? E : never
 
-const appendValueToEndOfList = <T>(value: T) => (list: T[]): T[] => [...list, value]
+const appendValueToEndOfList =
+  <T>(value: T) =>
+  (list: T[]): T[] =>
+    [...list, value]
 
 /**
  * Short circuits on the FIRST Err value that we find
@@ -55,19 +58,14 @@ const combineResultAsyncList = <T, E>(asyncResultList: ResultAsync<T, E>[]): Res
 
 export function combine<T extends readonly Result<unknown, unknown>[]>(
   resultList: T,
-): Result<ExtractOkTypes<T>, ExtractErrTypes<T>[number]>
+): Result<ExtractOkTypes<T>, ExtractErrTypes<T>[number]> {
+  return combineResultList(resultList as any) as any
+}
 
-export function combine<T extends readonly ResultAsync<unknown, unknown>[]>(
+export function combineAsync<T extends readonly ResultAsync<unknown, unknown>[]>(
   asyncResultList: T,
-): ResultAsync<ExtractOkAsyncTypes<T>, ExtractErrAsyncTypes<T>[number]>
-
-// eslint-disable-next-line
-export function combine(list: any): any {
-  if (list[0] instanceof ResultAsync) {
-    return combineResultAsyncList(list)
-  } else {
-    return combineResultList(list)
-  }
+): ResultAsync<ExtractOkAsyncTypes<T>, ExtractErrAsyncTypes<T>[number]> {
+  return combineResultAsyncList(asyncResultList as any) as any
 }
 
 /**
@@ -95,17 +93,12 @@ const combineResultAsyncListWithAllErrors = <T, E>(
 
 export function combineWithAllErrors<T extends readonly Result<unknown, unknown>[]>(
   resultList: T,
-): Result<ExtractOkTypes<T>, ExtractErrTypes<T>[number][]>
+): Result<ExtractOkTypes<T>, ExtractErrTypes<T>[number][]> {
+  return combineResultListWithAllErrors(resultList as any) as any
+}
 
-export function combineWithAllErrors<T extends readonly ResultAsync<unknown, unknown>[]>(
+export function combineWithAllErrorsAsync<T extends readonly ResultAsync<unknown, unknown>[]>(
   asyncResultList: T,
-): ResultAsync<ExtractOkAsyncTypes<T>, ExtractErrAsyncTypes<T>[number][]>
-
-// eslint-disable-next-line
-export function combineWithAllErrors(list: any): any {
-  if (list[0] instanceof ResultAsync) {
-    return combineResultAsyncListWithAllErrors(list)
-  } else {
-    return combineResultListWithAllErrors(list)
-  }
+): ResultAsync<ExtractOkAsyncTypes<T>, ExtractErrAsyncTypes<T>[number][]> {
+  return combineResultAsyncListWithAllErrors(asyncResultList as any) as any
 }

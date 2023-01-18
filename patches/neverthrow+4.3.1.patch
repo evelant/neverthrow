@@ -1,0 +1,112 @@
+diff --git a/dist/index.cjs.js b/dist/index.cjs.js
+index 0d4c6fc..ee36bb0 100644
+--- a/dist/index.cjs.js
++++ b/dist/index.cjs.js
+@@ -333,12 +333,11 @@ var combineResultAsyncList = function (asyncResultList) {
+ };
+ // eslint-disable-next-line
+ function combine(list) {
+-    if (list[0] instanceof ResultAsync) {
+-        return combineResultAsyncList(list);
+-    }
+-    else {
+-        return combineResultList(list);
+-    }
++    return combineResultList(list);
++}
++
++function combineAsync(list){
++    return combineResultAsyncList(list);
+ }
+ /**
+  * Give a list of all the errors we find
+@@ -359,19 +358,20 @@ var combineResultAsyncListWithAllErrors = function (asyncResultList) {
+ };
+ // eslint-disable-next-line
+ function combineWithAllErrors(list) {
+-    if (list[0] instanceof ResultAsync) {
+-        return combineResultAsyncListWithAllErrors(list);
+-    }
+-    else {
+-        return combineResultListWithAllErrors(list);
+-    }
++    return combineResultListWithAllErrors(list);
++}
++
++function combineWithAllErrorsAsync(list){
++    return combineResultAsyncListWithAllErrors(list);
+ }
+ 
+ exports.Err = Err;
+ exports.Ok = Ok;
+ exports.ResultAsync = ResultAsync;
+ exports.combine = combine;
++exports.combineAsync = combineAsync;
+ exports.combineWithAllErrors = combineWithAllErrors;
++exports.combineWithAllErrorsAsync = combineWithAllErrorsAsync;
+ exports.err = err;
+ exports.errAsync = errAsync;
+ exports.fromPromise = fromPromise;
+diff --git a/dist/index.d.ts b/dist/index.d.ts
+index 7660e36..cf1a0cb 100644
+--- a/dist/index.d.ts
++++ b/dist/index.d.ts
+@@ -37,9 +37,9 @@ declare type InferErrTypes<R> = R extends Result<unknown, infer E> ? E : never;
+ declare type InferAsyncOkTypes<R> = R extends ResultAsync<infer T, unknown> ? T : never;
+ declare type InferAsyncErrTypes<R> = R extends ResultAsync<unknown, infer E> ? E : never;
+ declare function combine<T extends readonly Result<unknown, unknown>[]>(resultList: T): Result<ExtractOkTypes<T>, ExtractErrTypes<T>[number]>;
+-declare function combine<T extends readonly ResultAsync<unknown, unknown>[]>(asyncResultList: T): ResultAsync<ExtractOkAsyncTypes<T>, ExtractErrAsyncTypes<T>[number]>;
++declare function combineAsync<T extends readonly ResultAsync<unknown, unknown>[]>(asyncResultList: T): ResultAsync<ExtractOkAsyncTypes<T>, ExtractErrAsyncTypes<T>[number]>;
+ declare function combineWithAllErrors<T extends readonly Result<unknown, unknown>[]>(resultList: T): Result<ExtractOkTypes<T>, ExtractErrTypes<T>[number][]>;
+-declare function combineWithAllErrors<T extends readonly ResultAsync<unknown, unknown>[]>(asyncResultList: T): ResultAsync<ExtractOkAsyncTypes<T>, ExtractErrAsyncTypes<T>[number][]>;
++declare function combineWithAllErrorsAsync<T extends readonly ResultAsync<unknown, unknown>[]>(asyncResultList: T): ResultAsync<ExtractOkAsyncTypes<T>, ExtractErrAsyncTypes<T>[number][]>;
+ 
+ interface ErrorConfig {
+     withStackTrace: boolean;
+@@ -208,4 +208,4 @@ declare class Err<T, E> implements IResult<T, E> {
+ }
+ declare const fromThrowable: typeof Result.fromThrowable;
+ 
+-export { Err, Ok, Result, ResultAsync, combine, combineWithAllErrors, err, errAsync, fromPromise, fromSafePromise, fromThrowable, ok, okAsync };
++export { Err, Ok, Result, ResultAsync, combine, combineAsync, combineWithAllErrors, combineWithAllErrorsAsync, err, errAsync, fromPromise, fromSafePromise, fromThrowable, ok, okAsync };
+diff --git a/dist/index.es.js b/dist/index.es.js
+index 8a6ade5..1ea8200 100644
+--- a/dist/index.es.js
++++ b/dist/index.es.js
+@@ -331,12 +331,11 @@ var combineResultAsyncList = function (asyncResultList) {
+ };
+ // eslint-disable-next-line
+ function combine(list) {
+-    if (list[0] instanceof ResultAsync) {
+-        return combineResultAsyncList(list);
+-    }
+-    else {
+-        return combineResultList(list);
+-    }
++    return combineResultList(list);
++}
++
++function combineAsync(list){
++    return combineResultAsyncList(list);
+ }
+ /**
+  * Give a list of all the errors we find
+@@ -357,12 +356,11 @@ var combineResultAsyncListWithAllErrors = function (asyncResultList) {
+ };
+ // eslint-disable-next-line
+ function combineWithAllErrors(list) {
+-    if (list[0] instanceof ResultAsync) {
+-        return combineResultAsyncListWithAllErrors(list);
+-    }
+-    else {
+-        return combineResultListWithAllErrors(list);
+-    }
++    return combineResultListWithAllErrors(list);
++}
++
++function combineWithAllErrorsAsync(list){
++    return combineResultAsyncListWithAllErrors(list);
+ }
+ 
+-export { Err, Ok, Result, ResultAsync, combine, combineWithAllErrors, err, errAsync, fromPromise, fromSafePromise, fromThrowable, ok, okAsync };
++export { Err, Ok, Result, ResultAsync, combine, combineAsync, combineWithAllErrors, combineWithAllErrorsAsync, err, errAsync, fromPromise, fromSafePromise, fromThrowable, ok, okAsync };

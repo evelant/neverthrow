@@ -16,14 +16,14 @@ export namespace Result {
     fn: Fn,
     errorFn?: (e: unknown) => E,
   ): (...args: Parameters<Fn>) => Result<ReturnType<Fn>, E> {
-    return (...args) => {
+    return ((...args: any[]) => {
       try {
         const result = fn(...args)
         return ok(result)
       } catch (e) {
         return err(errorFn ? errorFn(e) : e)
       }
-    }
+    }) as any
   }
 }
 export type Result<T, E> = Ok<T, E> | Err<T, E>
