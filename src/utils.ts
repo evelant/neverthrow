@@ -63,11 +63,12 @@ export function combine<T extends readonly ResultAsync<unknown, unknown>[]>(
 
 // eslint-disable-next-line
 export function combine(list: any): any {
-  if (list[0] instanceof ResultAsync) {
-    return combineResultAsyncList(list)
-  } else {
-    return combineResultList(list)
-  }
+  return combineResultList(list)
+}
+
+// eslint-disable-next-line
+export function combineAsync(list: any): any {
+  return combineResultAsyncList(list)
 }
 
 /**
@@ -103,9 +104,10 @@ export function combineWithAllErrors<T extends readonly ResultAsync<unknown, unk
 
 // eslint-disable-next-line
 export function combineWithAllErrors(list: any): any {
-  if (list[0] instanceof ResultAsync) {
-    return combineResultAsyncListWithAllErrors(list)
-  } else {
-    return combineResultListWithAllErrors(list)
-  }
+  return combineResultListWithAllErrors(list)
+}
+
+// eslint-disable-next-line
+export function combineWithAllErrorsAsync(list: any): any {
+  return combineResultAsyncListWithAllErrors(list)
 }
