@@ -1,5 +1,5 @@
 import { InferOkTypes, InferErrTypes, InferAsyncOkTypes, InferAsyncErrTypes } from './utils.ts'
-import { Result, Ok, Err } from './'
+import { Result, Ok, Err } from './result.ts'
 
 export class ResultAsync<T, E> implements PromiseLike<Result<T, E>> {
   private _promise: Promise<Result<T, E>>
