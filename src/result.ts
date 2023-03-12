@@ -1,4 +1,4 @@
-import { ResultAsync, errAsync } from './'
+import { ResultAsync, errAsync } from './result-async.ts'
 import { InferOkTypes, InferErrTypes } from './utils.ts'
 import { createNeverThrowError, ErrorConfig } from './_internals/error.ts'
 
