@@ -1,6 +1,6 @@
 import { ResultAsync, errAsync } from './'
-import { InferOkTypes, InferErrTypes } from './utils'
-import { createNeverThrowError, ErrorConfig } from './_internals/error'
+import { InferOkTypes, InferErrTypes } from './utils.ts'
+import { createNeverThrowError, ErrorConfig } from './_internals/error.ts'
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace Result {
